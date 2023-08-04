@@ -1,4 +1,4 @@
-import 'package:bloc_by_wckd/bloc/person.dart';
+import 'package:bloc_by_wckd/step-2/bloc/person.dart';
 import 'package:flutter/foundation.dart' show immutable;
 
 const persons1Url = 'http://192.168.1.2:5500/api/person1.js';

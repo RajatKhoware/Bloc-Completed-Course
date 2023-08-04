@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:bloc_by_wckd/bloc/bloc_actions.dart';
+import 'package:bloc_by_wckd/step-2/bloc/bloc_actions.dart';
 
 import 'person.dart';
 

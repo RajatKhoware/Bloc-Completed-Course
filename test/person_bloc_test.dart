@@ -1,7 +1,7 @@
 
-import 'package:bloc_by_wckd/bloc/bloc_actions.dart';
-import 'package:bloc_by_wckd/bloc/person.dart';
-import 'package:bloc_by_wckd/bloc/persons_bloc.dart';
+import 'package:bloc_by_wckd/step-2/bloc/bloc_actions.dart';
+import 'package:bloc_by_wckd/step-2/bloc/person.dart';
+import 'package:bloc_by_wckd/step-2/bloc/persons_bloc.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 
