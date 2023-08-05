@@ -7,14 +7,14 @@ import 'package:flutter_test/flutter_test.dart';
 
 final mockedPerson1 = [
   const Person(
-    name: "Rajat",
+    name: 'Rajat',
     age: 20,
   )
 ];
 
 final mockedPerson2 = [
   const Person(
-    name: "Rajat",
+    name: 'Rajat',
     age: 20,
   )
 ];
@@ -34,28 +34,28 @@ void main() {
     setUp(() => bloc = PersonBloc());
 
     blocTest<PersonBloc, FetchResult?>(
-      "Test intitial state",
+      'Test intitial state',
       build: () => bloc,
       verify: (bloc) => expect(bloc.state, null),
     );
 
     // Fetch mock data (person1) and compare it with fetchResult
     blocTest<PersonBloc, FetchResult?>(
-      "Mock retrieving persons from first iterable",
+      'Mock retrieving persons from first iterable',
       build: () => bloc,
       act: (bloc) {
         // Sending Events
         bloc.add(
           // Cache == false
           const LoadPersonsAction(
-            url: "dummy_url_1",
+            url: 'dummy_url_1',
             personsLoader: getMockedPerson1,
           ),
         );
         // Cache == true
         bloc.add(
           const LoadPersonsAction(
-            url: "dummy_url_1",
+            url: 'dummy_url_1',
             personsLoader: getMockedPerson1,
           ),
         );
@@ -75,21 +75,21 @@ void main() {
 
     // Fetch mock data (person1) and compare it with fetchResult
     blocTest<PersonBloc, FetchResult?>(
-      "Mock retrieving persons from second iterable",
+      'Mock retrieving persons from second iterable',
       build: () => bloc,
       act: (bloc) {
         // Sending Events
         bloc.add(
           // Cache == false
           const LoadPersonsAction(
-            url: "dummy_url_2",
+            url: 'dummy_url_2',
             personsLoader: getMockedPerson2,
           ),
         );
         // Cache == true
         bloc.add(
           const LoadPersonsAction(
-            url: "dummy_url_2",
+            url: 'dummy_url_2',
             personsLoader: getMockedPerson2,
           ),
         );

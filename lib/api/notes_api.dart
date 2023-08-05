@@ -10,6 +10,7 @@ abstract class NotesApiProtocol {
   });
 }
 
+// If the token is correct it will return the mockeNotes
 class NotesApi implements NotesApiProtocol {
   @override
   Future<Iterable<Notes>?> getNotes({required LoginHandler loginHandler}) =>

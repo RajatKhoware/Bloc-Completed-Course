@@ -11,6 +11,7 @@ abstract class LoginApiProtocol {
   });
 }
 
+// If the credentials matches we can return [LoginHandler.foobar()] token
 class LoginApi implements LoginApiProtocol {
   @override
   Future<LoginHandler?> login({

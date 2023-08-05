@@ -48,6 +48,7 @@ class HomePage extends StatelessWidget {
       create: (BuildContext context) => AppBloc(
         loginApi: LoginApi(),
         notesApi: NotesApi(),
+        acceptedHandler: const LoginHandler.foobar(),
       ),
       child: Scaffold(
         appBar: AppBar(
@@ -72,9 +73,7 @@ class HomePage extends StatelessWidget {
                 context: context,
                 title: loginErrorDialogTitle,
                 content: loginErrorDialogContent,
-                optionBuilder: () => {
-                  ok: true,
-                },
+                optionBuilder: () => {ok: true},
               );
             }
             // if we are logged in, but we have no fetched notes, fetch them now

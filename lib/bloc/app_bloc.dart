@@ -10,36 +10,41 @@ import 'package:bloc_by_wckd/bloc/bloc_state.dart';
 class AppBloc extends Bloc<AppAction, AppState> {
   final LoginApiProtocol loginApi;
   final NotesApiProtocol notesApi;
+  final LoginHandler acceptedHandler;
   AppBloc({
     required this.loginApi,
     required this.notesApi,
+    required this.acceptedHandler,
   }) : super(const AppState.empty()) {
-    on<LoginAction>((event, emit) async {
-      // start loading
-      emit(
-        const AppState(
-          isLoading: true,
-          loginErrors: null,
-          loginHandler: null,
-          notes: null,
-        ),
-      );
-      // loggin the user in
-      final loginHandler = await loginApi.login(
-        email: event.email,
-        password: event.password,
-      );
-      emit(
-        AppState(
-          isLoading: false,
-          loginErrors: loginHandler != const LoginHandler.foobar()
-              ? LoginErrors.invalidHandle
-              : null,
-          loginHandler: loginHandler,
-          notes: null,
-        ),
-      );
-    });
+    on<LoginAction>(
+      (event, emit) async {
+        // start loading
+        emit(
+          const AppState(
+            isLoading: true,
+            loginErrors: null,
+            loginHandler: null,
+            notes: null,
+          ),
+        );
+        // loggin the user in
+        final loginHandler = await loginApi.login(
+          email: event.email,
+          password: event.password,
+        );
+        // can be error state or logged-in state
+        emit(
+          AppState(
+            isLoading: false,
+            loginErrors: loginHandler != acceptedHandler
+                ? LoginErrors.invalidHandle
+                : null,
+            loginHandler: loginHandler,
+            notes: null,
+          ),
+        );
+      },
+    );
     on<LoadNotesAction>((event, emit) async {
       // start loading
       emit(
@@ -52,8 +57,9 @@ class AppBloc extends Bloc<AppAction, AppState> {
       );
       // get login handler
       final loginHandler = state.loginHandler;
-      if (loginHandler != const LoginHandler.foobar()) {
-        // emit invalid login error
+      // token verification
+      if (loginHandler != acceptedHandler) {
+        // invalid login Error
         emit(
           AppState(
             isLoading: false,
@@ -64,7 +70,7 @@ class AppBloc extends Bloc<AppAction, AppState> {
         );
         return;
       }
-      // login is valid fetch notes
+      // valid login, now fetch notes
       final notesHandler = await notesApi.getNotes(loginHandler: loginHandler!);
       emit(
         AppState(
