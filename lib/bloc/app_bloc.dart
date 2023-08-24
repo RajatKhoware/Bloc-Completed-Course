@@ -5,19 +5,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:math' as math;
 
 typedef AppBlocRandomUrlPicker = String Function(Iterable<String>);
+typedef AppBlocUrlLoader = Future<Uint8List> Function(String url);
 
 extension GetRandomElement<T> on Iterable<T> {
   T getRandomElement() => elementAt(math.Random().nextInt(length));
 }
 
 class AppBloc extends Bloc<AppEvent, AppState> {
+  // Pick Random Url From Iterables
   String _pickRandomUrl(Iterable<String> allUrl) => allUrl.getRandomElement();
+  // Load Url Using NetworkAssetBundle
+  Future<Uint8List> _loadUrl(String url) {
+    return NetworkAssetBundle(Uri.parse(url)).load(url).then(
+          (byteValue) => byteValue.buffer.asUint8List(),
+        );
+  }
+
   AppBloc({
     required Iterable<String> urls,
     Duration? waitBeforeLoading,
     AppBlocRandomUrlPicker? urlPicker,
+    AppBlocUrlLoader? urlLoader,
   }) : super(const AppState.empty()) {
-    on<LoadingNextUrlEvent>((event, emit) async {
+    on<LoadNextUrlEvent>((event, emit) async {
       // loading
       emit(
         const AppState(
@@ -31,8 +41,8 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         if (waitBeforeLoading != null) {
           await Future.delayed(waitBeforeLoading);
         }
-        final bundle = NetworkAssetBundle(Uri.parse(url));
-        final data = (await bundle.load(url)).buffer.asUint8List();
+        // Load Data from network
+        final data = await (urlLoader ?? _loadUrl)(url);
         // data
         emit(
           AppState(

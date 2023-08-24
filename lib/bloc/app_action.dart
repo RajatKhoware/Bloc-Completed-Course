@@ -6,6 +6,6 @@ abstract class AppEvent {
 }
 
 @immutable
-class LoadingNextUrlEvent implements AppEvent {
-  const LoadingNextUrlEvent();
+class LoadNextUrlEvent implements AppEvent {
+  const LoadNextUrlEvent();
 }

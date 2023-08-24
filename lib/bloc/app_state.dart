@@ -25,4 +25,34 @@ class AppState {
         'data': data != null,
         'error': error,
       }.toString();
+
+  @override
+  bool operator ==(covariant AppState other) =>
+      isLoading == other.isLoading &&
+      (data ?? []).isEquall((other.data ?? [])) &&
+      error == other.error;
+
+  @override
+  int get hashCode => Object.hash(
+        isLoading,
+        data,
+        error,
+      );
+}
+
+extension Comparison<E> on List<E> {
+  bool isEquall(List<E> other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (length != other.length) {
+      return false;
+    }
+    for (int i = 0; i < length; i++) {
+      if (this[i] != other[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
